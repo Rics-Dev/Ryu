@@ -1,6 +1,44 @@
-[package]
-name = "ryu"
-version = "0.1.0"
-edition = "2024"
+[workspace]
+resolver = "3"
+members = ["crates/*"]
+default-members = ["crates/ryu"]
 
-[dependencies]
+[workspace.package]
+version = "0.1.0"
+authors = ["Ric's Dev <ricsdev@proton.me>"]
+edition = "2024"
+repository = "https://codeberg.org/RicsDev/Ryu.git"
+description = ""
+
+[workspace.dependencies]
+ratatui = "0.30.0"
+crossterm = "0.29.0"
+ropey = "1.6.1"
+tree-sitter = "0.26.8"
+rhai = "1.24.0"
+
+[workspace.lints.rust]
+unsafe_code = "deny"
+missing_docs = "warn"
+unused_must_use = "deny"
+
+[workspace.lints.clippy]
+all = "warn"
+pedantic = "warn"
+
+[profile.dev]
+opt-level = 0
+debug = true
+incremental = true
+
+[profile.release]
+opt-level = 3
+strip = "symbols"
+lto = "fat"
+panic = "abort"
+codegen-units = 1
+
+[profile.release-debug]
+inherits = "release"
+debug = true
+strip = "none"
