@@ -1,0 +1,1 @@
+//! Ryu-Buffer - Text buffer implementation (ropey + tree-sitter integration), undo/redo, basic operations (insert/delete), selections, cursor management.

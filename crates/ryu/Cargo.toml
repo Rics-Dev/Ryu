@@ -1,0 +1,21 @@
+[package]
+name = "ryu"
+version.workspace = true
+authors.workspace = true
+edition.workspace = true
+repository.workspace = true
+description.workspace = true
+
+[dependencies]
+ryu-core = { path = "../ryu-core" }
+ryu-editor = { path = "../ryu-editor" }
+clap.workspace = true
+color-eyre.workspace = true
+tokio.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+tracing-error.workspace = true
+
+
+[lints]
+workspace = true
