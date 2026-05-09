@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="EMPTY_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/crates/ryu-buffer/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/ryu-core/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/ryu-editor/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/ryu-keybinding/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/ryu-lsp/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/ryu-rhai/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/ryu-theme/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/ryu-ui/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/crates/ryu/src" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+</module>

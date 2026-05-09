@@ -1,5 +1,5 @@
 [package]
-name = "ryu-buffer"
+name = "ryu-lsp"
 version.workspace = true
 authors.workspace = true
 edition.workspace = true
@@ -7,11 +7,6 @@ repository.workspace = true
 description.workspace = true
 
 [dependencies]
-ryu-core = { path = "../ryu-core" }
-ropey.workspace = true
-unicode-width.workspace = true
-unicode-segmentation.workspace = true
-color-eyre.workspace = true
 
 [lints]
 workspace = true

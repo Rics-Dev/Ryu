@@ -15,7 +15,7 @@ clap = { version = "4.6.1", features = ["derive"] }
 color-eyre = { version = "0.6.5", features = ["tracing-error"] }
 crossterm = { version = "0.29.0", features = ["event-stream"] }
 dirs = "6.0.0"
-fff-search = "0.6.4"
+fff-search = "0.7.2"
 futures = "0.3.32"
 notify = "8.2.0"
 ratatui = "0.30.0"
@@ -28,6 +28,7 @@ tracing = "0.1.44"
 tracing-subscriber = { version = "0.3.23", features = ["env-filter"] }
 tracing-appender = "0.2.5"
 tracing-error = "0.2.1"
+undo = "0.52.0"
 unicode-segmentation = "1.13.2" # uses graphemes clusters - Knowing where grapheme boundaries are
 unicode-width = "0.2.2"
 

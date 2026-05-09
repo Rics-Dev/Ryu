@@ -9,6 +9,7 @@ description.workspace = true
 [dependencies]
 ryu-core = { path = "../ryu-core" }
 ryu-ui = { path = "../ryu-ui" }
+ryu-buffer = { path = "../ryu-buffer" }
 color-eyre.workspace = true
 crossterm.workspace = true
 futures.workspace = true

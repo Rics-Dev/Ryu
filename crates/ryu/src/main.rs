@@ -14,9 +14,10 @@ use clap::Parser;
 /// A terminal text editor
 #[derive(Parser, Debug)]
 #[command(name = "ryu", version, author, about)]
-struct Cli {
-    /// File to open
-    file: Option<PathBuf>,
+struct Args {
+    /// File to open (omit to start with a scratch buffer)
+    #[arg(value_name = "FILE")]
+    file: Option<PathBuf>,    
 }
 
 
@@ -24,8 +25,7 @@ struct Cli {
 #[tokio::main]
 async fn main() -> Result<()> {
     color_eyre::install()?;
-
-    let args = Cli::parse(); // happens before tracing setup intentionally so --help/--version exit cleanly with no noise
+    let args = Args::parse(); // happens before tracing setup intentionally so --help/--version exit cleanly with no noise
     
     tracing_subscriber::registry()
         .with(EnvFilter::try_from_default_env().unwrap_or_else(|_| EnvFilter::new("info")))
@@ -35,15 +35,10 @@ async fn main() -> Result<()> {
 
 
 
-    // Basic clap later, for now simple args
     info!("Starting Ryu...");
 
-
-    // let contents = std::fs::read_to_string("../config.toml")
-    //     .wrap_err("failed to read ryu config")?;
     
-    // TODO: load config, init editor, run TUI
-    ryu_editor::run().await?;
+    ryu_editor::run(args.file).await?;
 
     Ok(())
 }
