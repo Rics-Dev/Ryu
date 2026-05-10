@@ -15,8 +15,10 @@ pub fn render(frame: &mut Frame, state: &EditorState) {
 
     editor_area::render(frame, editor_area, &window.viewport);
 
-    frame.set_cursor_position((
-        window.view.cursor.col  as u16,
-        window.view.cursor.line.saturating_sub(window.view.scroll_top) as u16,
-    ));
+    if state.cursor_visible {
+        frame.set_cursor_position((
+            window.view.cursor.col  as u16,
+            window.view.cursor.line.saturating_sub(window.view.scroll_top) as u16,
+        ));
+    }
 }

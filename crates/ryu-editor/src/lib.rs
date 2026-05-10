@@ -15,9 +15,14 @@ use ryu_core::{BufferId, CursorPos, EditorState, View, Viewport, Window};
 struct Editor {
     buffer: Buffer,
     view:   View,
+    // true => File changed => viewport needs recompute
+    dirty: bool, 
+    // Cache the last computed state so idle frames skip recomputation
+    cached_state: Option<EditorState>,
 }
 
 impl Editor {
+    
     fn new(file: Option<PathBuf>) -> Result<Self> {
         let id = BufferId(0);
         let buffer = match file {
@@ -29,7 +34,15 @@ impl Editor {
             cursor:     CursorPos::default(),
             scroll_top: 0,
         };
-        Ok(Self { buffer, view })
+        Ok(Self { buffer, view, dirty: true, cached_state: None })
+    }
+
+    fn state(&mut self, visible_rows: usize) -> &EditorState {
+        if self.dirty || self.cached_state.is_none() {
+            self.cached_state = Some(self.render_state(visible_rows));
+            self.dirty = false;
+        }
+        self.cached_state.as_ref().unwrap()
     }
 
     /// Compute the Viewport + EditorState the UI needs for this frame.
@@ -49,7 +62,7 @@ impl Editor {
             title:    self.buffer.display_name().to_string(),
         };
     
-        EditorState { window: Some(window) }
+        EditorState { window: Some(window), cursor_visible: true }
     }
 }
 
@@ -61,16 +74,18 @@ pub async fn run(file: Option<PathBuf>) -> Result<()> {
 }
 
 async fn run_app(mut terminal: DefaultTerminal, file: Option<PathBuf>) -> Result<()> {
-    let editor       = Editor::new(file)?;
+    let mut editor = Editor::new(file)?;
     let mut event_stream = EventStream::new();
 
-    loop {
-        let size  = terminal.size()?;
-        // Reserve 1 row for the status bar (future), rest is text area
-        let visible_rows = size.height.saturating_sub(1) as usize;
-        let state = editor.render_state(visible_rows);
+    // Reserve 1 row for the status bar (future), rest is text area
+    let mut visible_rows = terminal.size()?.height.saturating_sub(1) as usize;
 
-        terminal.draw(|f| ryu_ui::render(f, &state))?;
+    loop {
+        if editor.dirty {
+            let state = editor.state(visible_rows);
+            terminal.draw(|f| ryu_ui::render(f, &state))?;
+        }
+
 
         tokio::select! {
             maybe_event = event_stream.next() => {
@@ -81,6 +96,10 @@ async fn run_app(mut terminal: DefaultTerminal, file: Option<PathBuf>) -> Result
                         {
                             break;
                         }
+                    }
+                    Some(Ok(Event::Resize(_, h))) => {
+                        visible_rows = h.saturating_sub(1) as usize;
+                        editor.dirty = true;
                     }
                     Some(Err(e)) => return Err(e.into()),
                     _ => {}

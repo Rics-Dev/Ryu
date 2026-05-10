@@ -11,9 +11,11 @@ ryu-core = { path = "../ryu-core" }
 ryu-editor = { path = "../ryu-editor" }
 clap.workspace = true
 color-eyre.workspace = true
+dirs.workspace = true
 tokio.workspace = true
 tracing.workspace = true
 tracing-subscriber.workspace = true
+tracing-appender.workspace = true
 tracing-error.workspace = true
 
 

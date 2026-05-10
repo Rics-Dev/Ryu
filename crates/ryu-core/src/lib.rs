@@ -96,6 +96,7 @@ pub struct WindowTree {
 #[derive(Debug, Default, Clone)]
 pub struct EditorState {
     pub window:   Option<Window>,
+    pub cursor_visible: bool,
     
 }
 

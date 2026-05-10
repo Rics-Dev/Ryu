@@ -3,7 +3,7 @@
 //! It doesn't know if you have one window or five. 
 //! It just stores text and lets you read or mutate it.
 
-use std::path::PathBuf;
+use std::{fs::File, io::BufReader, path::PathBuf};
 use ropey::Rope;
 use ryu_core::BufferId;
 
@@ -28,11 +28,12 @@ impl Buffer {
 
     /// Load a file from disk into a buffer.
     pub fn from_file(id: BufferId, path: PathBuf) -> color_eyre::Result<Self> {
-        let text = std::fs::read_to_string(&path)?;
+        let file = File::open(&path)?;
+        let reader = BufReader::new(file);
         Ok(Self {
             id,
             path:  Some(path),
-            rope:  Rope::from_str(&text),
+            rope:  Rope::from_reader(reader)?,
             dirty: false,
         })
     }
@@ -45,6 +46,9 @@ impl Buffer {
     pub fn line(&self, index: usize) -> String {
         let line = self.rope.line(index);
         let len = line.len_chars();
+        if len == 0 {
+            return String::new();
+        }
         let trimmed_len = if line.char(len - 1) == '\n' { len - 1 } else { len };
         line.slice(..trimmed_len).to_string()
     }
