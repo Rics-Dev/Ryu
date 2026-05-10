@@ -1,5 +1,8 @@
 //! Ryu-Editor - Main editor state machine, orchestration of buffer + keybinding + rhai + ui. Handles input loop, commands, async events (LSP, file I/O).\
 //! this should know what to render (mode, filename, cursor pos) but not how
+//! ryu-editor answers: "what should the user see right now?"
+//! This is where the decision "I need lines 10 through 49" is made. 
+//! Then it asks ryu-buffer for each of those lines individually, assembles the Viewport, and hands it to ryu-ui
 
 use std::path::PathBuf;
 use color_eyre::Result;

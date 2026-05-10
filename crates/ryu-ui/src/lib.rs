@@ -10,16 +10,9 @@ use ryu_core::{EditorState};
 
 /// Renders the entire editor UI, including main content and status bar.
 pub fn render(frame: &mut Frame, state: &EditorState) {
-        let Some(window) = &state.window else { return };
+    let Some(window) = &state.window else { return };
     let editor_area = layout::editor_area(frame.area());
 
-    // Main content area — placeholder until ryu-buffer renders here
-    // frame.render_widget(
-    //     Paragraph::new("Main editor area (buffer content goes here)")
-    //         .style(Style::default()),
-    //     editor_area,
-    // );
-    // 
     editor_area::render(frame, editor_area, &window.viewport);
 
     frame.set_cursor_position((

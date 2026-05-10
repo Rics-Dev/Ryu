@@ -1,4 +1,7 @@
 //! Ryu-Buffer - Text buffer implementation (ropey + tree-sitter integration), undo/redo, basic operations (insert/delete), selections, cursor management.
+//! ryu-buffer answers: "what does the text say?" It knows nothing about the screen, the window size, or what's currently visible.
+//! It doesn't know if you have one window or five. 
+//! It just stores text and lets you read or mutate it.
 
 use std::path::PathBuf;
 use ropey::Rope;
@@ -40,8 +43,10 @@ impl Buffer {
 
     /// Returns the line at `index` as a String, with the trailing newline stripped.
     pub fn line(&self, index: usize) -> String {
-        let s = self.rope.line(index).to_string();
-        s.trim_end_matches('\n').to_string()
+        let line = self.rope.line(index);
+        let len = line.len_chars();
+        let trimmed_len = if line.char(len - 1) == '\n' { len - 1 } else { len };
+        line.slice(..trimmed_len).to_string()
     }
 
     /// Display name for the title bar / status line.
